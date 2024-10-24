@@ -2,7 +2,7 @@
 * c2017-2024 Courtney Brown 
 * Class: Main Class for Hello World for CC3 Class Projects streaming MIDI, etc.
 * Description: Demonstration of MIDI file manipulations, etc. & 'MelodyPlayer' sequencer, 2024 - add processing/interactivity
-* 
+* Ahhhhhhhhh
 */
 
 package com.linked_list_music_template;
@@ -34,6 +34,11 @@ public class App extends PApplet {
     //all the objects that implement a draw
     ArrayList<Drawable> draws = new ArrayList<>(); 
 
+
+    //add melody manager class 
+    LinkedListMelodyManager manager = new LinkedListMeloldyManager();
+    LinkedListMelody melody = new LinkedListMelody();
+
     public static void main(String[] args) {
         PApplet.main("com.linked_list_music_template.App");       
     }
@@ -42,8 +47,28 @@ public class App extends PApplet {
     public void settings()
     {
         size(500, 500);
+        manager.setup();
+        addNodes();
         setupButtons();
+        addMeldoyDraw();
         //in another function, setup your linked list and add it to the draws.
+    }
+
+    void addNodes()
+    {
+
+        for( int i =0; i<manager.size(); i++)
+        {
+        melody.insertAtEnd(new MelodyNode(manger, i));
+        }
+
+
+    }
+
+    public void addMelodyDraw(){
+
+        draws.add(melody);
+        draws.add(manager);
     }
 
     //create & add your buttons to presses & draws 
@@ -76,6 +101,12 @@ public class App extends PApplet {
         {
             press.mousePressed(mouseX, mouseY);
         }
+    }
+
+    public void keyPressed()
+    {
+    melody.start();
+
     }
 
 

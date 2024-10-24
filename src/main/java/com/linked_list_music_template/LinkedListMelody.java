@@ -15,4 +15,14 @@ public class LinkedListMelody implements Drawable {
     {
         //fill this in to play melody
     }
+    MelodyNode curPlayingNode = null;
+    public void start()
+    {
+
+        if(head !=null){
+        curPlayingNode = head;
+        head.start();
+
+        }
+    }
 }
