@@ -23,8 +23,7 @@ public void playMelodies(){
 void addMidiFile(String filePath){
    int index = players.size();
 
-    players.add(new MelodyPlayer(100, "Bus 1"));
-
+   players.add( new MelodyPlayer(100, "Microsoft GS Wavetable Synth"));
     midiNotes.add(new MidiFileToNotes(filePath));
 
    
@@ -43,5 +42,11 @@ void start(int index)
 
     players.get(index).reset();
 }
+
+boolean atEnd(int index)
+{
+    return players.get(index).atEndOfMelody();
+}
+
 
 }
