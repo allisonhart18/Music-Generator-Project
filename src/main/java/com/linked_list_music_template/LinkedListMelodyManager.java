@@ -39,7 +39,7 @@ public class LinkedListMelodyManager implements Drawable {
 
     public void addMidiFile(String filePath) {
         int index = players.size();
-        players.add( new MelodyPlayer(100, "Microsoft GS Wavetable Synth"));
+        players.add( new MelodyPlayer(120, "Microsoft GS Wavetable Synth"));
         midiNotes.add(new MidiFileToNotes(filePath));
         players.get(index).setMelody(midiNotes.get(index).getPitchArray());
         players.get(index).setRhythm(midiNotes.get(index).getRhythmArray());
@@ -59,7 +59,5 @@ public class LinkedListMelodyManager implements Drawable {
         
 
     }
-
-        
     
 }

@@ -17,7 +17,7 @@ import processing.core.*;
 public class App extends PApplet {
     static FileSystem sys = FileSystems.getDefault();
     static String prependPath = "mid" + sys.getSeparator();
-    static String appendType = ".mid";  // Removed extra separator
+    static String appendType = ".mid";  
 
     ArrayList<OnMousePress> presses = new ArrayList<>();
     ArrayList<Drawable> draws = new ArrayList<>();
@@ -53,6 +53,11 @@ public class App extends PApplet {
         float centerX = width / 2;
         float centerY = height / 2;
         float spacer = 8;
+
+
+        PlayButton play = new PlayButton(this, melody, centerX, centerY);
+        draws.add(play);
+        presses.add(play);
     }
 
     public void setup() {
@@ -69,10 +74,6 @@ public class App extends PApplet {
         for(OnMousePress press : presses) {
             press.mousePressed(mouseX, mouseY);
         }
-    }
-
-    public void keyPressed() {
-        melody.start();  
     }
     
 }

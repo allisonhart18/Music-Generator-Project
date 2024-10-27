@@ -1,5 +1,6 @@
 package com.linked_list_music_template;
 
+// Node class for the melody linked list
 public class MelodyNode {
     private LinkedListMelodyManager melodies;
     private int whichMelody;
@@ -10,14 +11,6 @@ public class MelodyNode {
         this.whichMelody = whichMelody;
     }
 
-    public int getMelodyIndex() {
-        return whichMelody;
-    }
-
-    public boolean atEnd() {
-        return melodies.atEnd(whichMelody);
-    }
-
     public MelodyNode getNext() {
         return next;
     }
@@ -26,7 +19,19 @@ public class MelodyNode {
         this.next = next;
     }
 
+    public int getMelodyIndex() {
+        return whichMelody;
+    }
+
     public void start() {
         melodies.start(whichMelody);
+    }
+
+    public MelodyNode copy() {
+        return new MelodyNode(this.melodies, this.whichMelody);
+    }
+
+    public boolean atEnd() {
+        return melodies.atEnd(whichMelody);
     }
 }
