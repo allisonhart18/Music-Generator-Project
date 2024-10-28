@@ -28,5 +28,3 @@ public abstract class MelodyButton extends Button {
          }
     }
  
-
-

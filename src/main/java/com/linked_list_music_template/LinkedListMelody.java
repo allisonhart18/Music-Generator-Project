@@ -3,21 +3,20 @@
  * Class: LinkedListMelody
  * Description: [you fille in]
  * 
- */
-package com.linked_list_music_template;
+ */ package com.linked_list_music_template;
 
 public class LinkedListMelody implements Drawable {
     private MelodyNode head;
     private MelodyNode curPlayingNode;
 
+    // Start playing the melody from the head
     public void start() {
         if (head != null) {
-            curPlayingNode = head;
-            curPlayingNode.start();
-            play(); // Directly call play after starting
+            curPlayingNode = head; // Reset to the head
+            curPlayingNode.start(); // Start playing the melody
+            System.out.println("Started playing melody index: " + curPlayingNode.getMelodyIndex());
         }
     }
-
 
     public void insertAtStart(MelodyNode node) {
         node.setNext(head);
@@ -66,14 +65,17 @@ public class LinkedListMelody implements Drawable {
     }
 
     public void stop() {
-        curPlayingNode = null;
+        if (curPlayingNode != null) {
+            curPlayingNode.stop(); // Assuming stop method exists in MelodyNode
+            curPlayingNode = null;
+        }
     }
 
     public void weave(MelodyNode node, int count, int skip) {
         MelodyNode temp = head;
         int inserted = 0;
         int nodesTraversed = 0;
-        
+
         while (temp != null && inserted < count) {
             if (nodesTraversed == skip) {
                 MelodyNode copyNode = node.copy();
@@ -115,24 +117,10 @@ public class LinkedListMelody implements Drawable {
         play();
     }
 
-    
-
     public void play() {
-        if (curPlayingNode == null) {
-            curPlayingNode = head;
-        }
-        // Continue to next node if the current one has finished
         if (curPlayingNode != null) {
-            if (curPlayingNode.atEnd()) {
-                curPlayingNode = curPlayingNode.getNext();
-                if (curPlayingNode != null) {
-                    curPlayingNode.start();
-                }
-            } else {
-                // If it hasn't finished, ensure it’s still playing
-                curPlayingNode.start();
-            }
+            curPlayingNode.start(); // Play the current node
+            System.out.println("Playing melody index: " + curPlayingNode.getMelodyIndex());
         }
     }
 }
-    

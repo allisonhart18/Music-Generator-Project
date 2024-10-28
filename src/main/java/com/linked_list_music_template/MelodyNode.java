@@ -25,6 +25,12 @@ public class MelodyNode {
 
     public void start() {
         melodies.start(whichMelody);
+        System.out.println("Starting melody index: " + whichMelody); // Print when the melody starts
+    }
+    
+    public void stop() {
+        melodies.stop(whichMelody); // Call stop on the melodies manager
+        System.out.println("Stopping melody index: " + whichMelody); // Print when the melody stops
     }
 
     public MelodyNode copy() {
