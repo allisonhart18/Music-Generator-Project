@@ -6,8 +6,32 @@
  */ package com.linked_list_music_template;
 
 public class LinkedListMelody implements Drawable {
-    private MelodyNode head;
-    private MelodyNode curPlayingNode;
+    private MelodyNode head; // The head of the linked list
+    private MelodyNode curPlayingNode; // The currently playing melody
+    private int size; // Keep track of the number of nodes
+
+    public LinkedListMelody() {
+        this.head = null; // Initialize head to null
+        this.size = 0; // Initialize size to zero
+    }
+
+    // Method to insert a new MelodyNode at the end of the linked list
+    public void insertAtEnd(MelodyNode newNode) {
+        if (head == null) {
+            head = newNode; // If the list is empty, set head to the new node
+        } else {
+            MelodyNode current = head; // Start from the head
+            while (current.getNext() != null) { // Traverse to the end of the list
+                current = current.getNext();
+            }
+            current.setNext(newNode); // Link the new node at the end
+        }
+        size++; // Increment the size of the list
+    }
+
+    public int size() {
+        return size; // Return the current size of the list
+    }
 
     // Start playing the melody from the head
     public void start() {
@@ -18,109 +42,29 @@ public class LinkedListMelody implements Drawable {
         }
     }
 
-    public void insertAtStart(MelodyNode node) {
-        node.setNext(head);
-        head = node;
-    }
-
-    public void insertAtEnd(MelodyNode node) {
-        if (head == null) {
-            head = node;
-        } else {
-            MelodyNode temp = head;
-            while (temp.getNext() != null) {
-                temp = temp.getNext();
-            }
-            temp.setNext(node);
-        }
-    }
-
-    public void insert(int index, MelodyNode node) {
-        if (index == 0) {
-            insertAtStart(node);
-        } else {
-            MelodyNode temp = head;
-            for (int i = 0; i < index - 1 && temp != null; i++) {
-                temp = temp.getNext();
-            }
-            if (temp != null) {
-                node.setNext(temp.getNext());
-                temp.setNext(node);
-            }
-        }
-    }
-
-    public void print() {
-        MelodyNode temp = head;
-        System.out.print("Melody: ");
-        while (temp != null) {
-            System.out.print(temp.getMelodyIndex() + (temp.getNext() != null ? ", " : ""));
-            temp = temp.getNext();
-        }
-        System.out.println();
-    }
-
-    public void loop(boolean loop_) {
-        // Implement looping logic
-    }
-
-    public void stop() {
-        if (curPlayingNode != null) {
-            curPlayingNode.stop(); // Assuming stop method exists in MelodyNode
-            curPlayingNode = null;
-        }
-    }
-
-    public void weave(MelodyNode node, int count, int skip) {
-        MelodyNode temp = head;
-        int inserted = 0;
-        int nodesTraversed = 0;
-
-        while (temp != null && inserted < count) {
-            if (nodesTraversed == skip) {
-                MelodyNode copyNode = node.copy();
-                copyNode.setNext(temp.getNext());
-                temp.setNext(copyNode);
-                inserted++;
-                nodesTraversed = 0;
-                temp = copyNode.getNext();
-            } else {
-                nodesTraversed++;
-                temp = temp.getNext();
-            }
-        }
-    }
-
-    public boolean isEmpty() {
-        return head == null;
-    }
-
-    public void clear() {
-        head = null;
-    }
-
-    public void reverse() {
-        MelodyNode prev = null;
-        MelodyNode current = head;
-        MelodyNode next;
-        while (current != null) {
-            next = current.getNext();
-            current.setNext(prev);
-            prev = current;
-            current = next;
-        }
-        head = prev;
-    }
-
-    @Override
-    public void draw() {
-        play();
-    }
-
     public void play() {
         if (curPlayingNode != null) {
             curPlayingNode.start(); // Play the current node
             System.out.println("Playing melody index: " + curPlayingNode.getMelodyIndex());
+
+            // Check if the current melody has ended
+            if (curPlayingNode.atEnd()) {
+                // Move to the next node
+                curPlayingNode = curPlayingNode.getNext();
+                if (curPlayingNode == null) {
+                    // If reached the end, loop back to the head
+                    curPlayingNode = head;
+                }
+                // Start the next melody
+                if (curPlayingNode != null) {
+                    curPlayingNode.start();
+                }
+            }
         }
+    }
+
+    @Override
+    public void draw() {
+        play(); // Call play each frame to ensure continuous playing
     }
 }

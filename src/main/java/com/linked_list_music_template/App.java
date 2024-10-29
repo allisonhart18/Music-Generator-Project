@@ -40,10 +40,13 @@ public class App extends PApplet {
 
 
     void addNodes() {
+        LinkedListMelody melody = new LinkedListMelody(); // Ensure melody is defined
         for(int i = 0; i < manager.size(); i++) {
-            melody.insertAtEnd(new MelodyNode(manager, i));
+            melody.insertAtEnd(new MelodyNode(manager, i)); // Add nodes to the list
         }
     }
+    
+      
 
 
     public void addMelodyDraw() {
@@ -80,10 +83,8 @@ public class App extends PApplet {
         for (Drawable drawer : draws) {
             drawer.draw();
         }
-        melody.play(); // Ensure the melody is being played continuously
     }
     
-
     public void mousePressed() {
         for (OnMousePress press : presses) {
             press.mousePressed(mouseX, mouseY);

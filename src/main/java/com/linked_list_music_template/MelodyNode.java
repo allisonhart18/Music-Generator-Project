@@ -14,6 +14,7 @@ public class MelodyNode {
     public MelodyNode getNext() {
         return next;
     }
+    
 
     public void setNext(MelodyNode next) {
         this.next = next;
@@ -24,9 +25,14 @@ public class MelodyNode {
     }
 
     public void start() {
-        melodies.start(whichMelody);
-        System.out.println("Starting melody index: " + whichMelody); // Print when the melody starts
+        if (melodies != null) {
+            melodies.start(whichMelody); // Play the melody at the current index
+            System.out.println("Starting melody index: " + whichMelody);
+        } else {
+            System.out.println("Melody manager is not initialized.");
+        }
     }
+    
     
     public void stop() {
         melodies.stop(whichMelody); // Call stop on the melodies manager
