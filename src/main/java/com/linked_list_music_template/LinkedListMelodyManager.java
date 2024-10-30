@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 
+
 // Class managing a collection of melody players and MIDI files
 public class LinkedListMelodyManager implements Drawable {
     // List of MelodyPlayer instances that play the melodies
@@ -80,6 +81,6 @@ public class LinkedListMelodyManager implements Drawable {
 
     // Draw method for implementing Drawable interface (currently empty)
     public void draw() {
-       
+        playMelodies();
     }
 }

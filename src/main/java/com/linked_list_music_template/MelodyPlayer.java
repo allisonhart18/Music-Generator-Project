@@ -172,7 +172,7 @@ public class MelodyPlayer {
     //send a note on message and then add to playing note arrays
     void sendNoteOn(int note_index, double cur_time, int vel)
     {
-        //System.out.println("note on:" + melody.get(note_index));
+        System.out.println("note on:" + melody.get(note_index));
 
 
         outputMidiBus.sendNoteOn(0, (int) melody.get(note_index), vel);

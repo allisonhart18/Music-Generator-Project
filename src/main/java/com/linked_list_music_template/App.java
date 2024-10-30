@@ -22,7 +22,7 @@ public class App extends PApplet {
     // Path prefix for MIDI files
     static String prependPath = "mid" + sys.getSeparator();
     // MIDI file extension
-    static String appendType = ".mid";  // Removed extra separator
+    static String appendType = ".mid";  
 
     // Lists for handling mouse presses and drawable objects
     ArrayList<OnMousePress> presses = new ArrayList<>();
@@ -63,12 +63,45 @@ public class App extends PApplet {
     public void setupButtons() {
         float centerX = width / 2; // Calculate center x position
         float centerY = height / 2; // Calculate center y position
-        float spacer = 8; 
+        float spacer = 45; 
 
         // Create a play button and add it to the presses and draws lists
-        PlayButton play = new PlayButton(this, melody, centerX, centerY);
+        PlayButton play = new PlayButton(this, melody, centerX +1, centerY);
         draws.add(play); // Add play button to the drawable list
         presses.add(play); // Add play button to the pressable list
+
+        StopButton stop = new StopButton(this, melody, centerX , centerY + spacer);
+        draws.add(stop);
+        presses.add(stop);
+
+        LoopButton loop = new LoopButton(this, melody, centerX, centerY + 2 * spacer);
+        draws.add(loop);
+        presses.add(loop);
+
+        WeaveButton weave = new WeaveButton(this, melody, 1, centerX, spacer+50);
+        draws.add(weave);
+        presses.add(weave);
+        WeaveButton weave1 = new WeaveButton(this, melody, 2, centerX, spacer+90);
+        draws.add(weave1);
+        presses.add(weave1);
+        WeaveButton weave2 = new WeaveButton(this, melody, 3, centerX, spacer+150);
+        draws.add(weave2);
+        presses.add(weave2);
+
+
+       
+        ClearList custom = new ClearList(this, melody, centerY, spacer*2+centerY+40); 
+        draws.add(custom);
+        presses.add(custom);
+
+
+        //fix spacing
+        UnitTestButton test = new UnitTestButton(this, melody, centerY, spacer);
+        draws.add(test);
+        presses.add(test);
+
+
+
     }
 
     // Set the initial background for the application
@@ -89,4 +122,6 @@ public class App extends PApplet {
             press.mousePressed(mouseX, mouseY); // Call mousePressed on each pressable element
         }
     }
+
+    
 }

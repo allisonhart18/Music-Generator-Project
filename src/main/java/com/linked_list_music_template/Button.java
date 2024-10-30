@@ -31,7 +31,7 @@
      String label; //the text that will be writton on top of the button
  
  
-     //indents for placement of text inside the button. maximized for the default sizes -- write a get/set to change these if you want.
+     //indents for placement of text inside the button. maximized for the default sizes
      int textIndentX = 10;
      int textIndexY = 5;
     

@@ -13,6 +13,7 @@
  public class LinkedListMelody implements Drawable {
      private MelodyNode head;
      private MelodyNode curPlayingNode = null;
+     private boolean loopEnabled = false; // New field to control looping
  
      // Insert a new melody node at the end of the list
      public void insertAtEnd(MelodyNode newNode) {
@@ -27,6 +28,11 @@
          }
      }
  
+     // Toggle looping on or off
+     public void loop(boolean enable) {
+         loopEnabled = enable;
+     }
+ 
      // Draw method for initiating playback
      public void draw() {
          play();
@@ -37,30 +43,29 @@
          if (head != null) {
              curPlayingNode = head;
              curPlayingNode.start();
-             play(); // Directly call play after starting
          }
      }
  
-     // Play each node sequentially
+     // Play each node sequentially, and restart from head if looping is enabled
      public void play() {
          if (curPlayingNode != null && curPlayingNode.atEnd()) {
              MelodyNode next = curPlayingNode.getNext();
              if (next != null) {
                  curPlayingNode = next;
                  curPlayingNode.start();
+             } else if (loopEnabled) { // Restart from head if looping is enabled
+                 curPlayingNode = head;
+                 curPlayingNode.start();
              }
          }
      }
  
-     /*Explanation for comment below :)
-      *comment explains the method's functionality is to "weave" (insert) a given node into an 
-      existing melody list at specified intervals.
-
-@param node: This parameter represents the specific MelodyNode that you want to insert into the melody list.
-@param count: This indicates how many times the node should be inserted into the list.
-@param skip: This specifies the interval (or number of nodes to skip) between each insertion of the node.
-
-      */
+     // Stop playback by resetting the current playing node to null
+     public void stop() {
+         curPlayingNode = null;
+         System.out.println("Playback stopped.");
+     }
+ 
      /**
       * Weave a specified node into the melody list at intervals.
       * @param node The MelodyNode to weave into the list.
