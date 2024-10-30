@@ -31,7 +31,7 @@ public class LinkedListMelodyManager implements Drawable {
     static String appendType = ".mid" + sys.getSeparator();
 
     // Array of MIDI file names to be loaded
-    String[] files = {"piano1", "piano2", "piano3", "piano4", "piano5", "piano6"};
+    String[] files = {"bassoon1", "bassoon2", "bassoon3", "bassoon4", "bassoon5", "bassoon6"};
 
     // Constructor initializing the players and midiNotes lists
     public LinkedListMelodyManager() {
