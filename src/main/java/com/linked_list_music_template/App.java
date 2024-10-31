@@ -57,6 +57,7 @@ public class App extends PApplet {
     public void addMelodyDraw() {
         draws.add(melody); // Add the melody to the draw list
         draws.add(manager); // Add the manager to the draw list
+        //add treeMelodynode
     }
 
     // Set up the buttons for the application interface
