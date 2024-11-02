@@ -5,124 +5,98 @@
  * to control melody playback, while handling mouse events 
  */
 
+ package com.linked_list_music_template;
 
-package com.linked_list_music_template;
-
-import jm.music.data.*;
-import jm.util.*;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.util.ArrayList;
-import processing.core.*;
-
-// Main Application Class
-public class App extends PApplet {
-    // File system object for managing file paths
-    static FileSystem sys = FileSystems.getDefault();
-    // Path prefix for MIDI files
-    static String prependPath = "mid" + sys.getSeparator();
-    // MIDI file extension
-    static String appendType = ".mid";  
-
-    // Lists for handling mouse presses and drawable objects
-    ArrayList<OnMousePress> presses = new ArrayList<>();
-    ArrayList<Drawable> draws = new ArrayList<>();
-
-    // Instantiate Manager and Melody Linked List
-    LinkedListMelodyManager manager = new LinkedListMelodyManager();
-    LinkedListMelody melody = new LinkedListMelody();
-
-    // Main method to launch the application
-    public static void main(String[] args) {
-        PApplet.main("com.linked_list_music_template.App");      
-    }
-
-    // Set up the application settings, including window size and initial setup
-    public void settings() {
-        size(500, 500); // Set the size of the application window
-        manager.setup(); // Set up the melody manager (load MIDI files)
-        addNodes(); // Add melody nodes to the linked list
-        setupButtons(); // Create and set up buttons for user interaction
-        addMelodyDraw(); // Add drawable elements to the draw list
-    }
-
-    // Add melody nodes to the linked list based on the manager's size
-    void addNodes() {
-        for(int i = 0; i < manager.size(); i++) {
-            melody.insertAtEnd(new MelodyNode(manager, i)); // Insert new MelodyNodes
-        }
-    }
-
-    // Add drawable elements to the draws list
-    public void addMelodyDraw() {
-        draws.add(melody); // Add the melody to the draw list
-        draws.add(manager); // Add the manager to the draw list
-        //add treeMelodynode
-    }
-
-    // Set up the buttons for the application interface
-    public void setupButtons() {
-        float centerX = width / 2; // Calculate center x position
-        float centerY = height / 2; // Calculate center y position
-        float spacer = 45; 
-
-        // Create a play button and add it to the presses and draws lists
-        PlayButton play = new PlayButton(this, melody, centerX +1, centerY);
-        draws.add(play); // Add play button to the drawable list
-        presses.add(play); // Add play button to the pressable list
-
-        StopButton stop = new StopButton(this, melody, centerX , centerY + spacer);
-        draws.add(stop);
-        presses.add(stop);
-
-        LoopButton loop = new LoopButton(this, melody, centerX, centerY + 2 * spacer);
-        draws.add(loop);
-        presses.add(loop);
-
-        WeaveButton weave = new WeaveButton(this, melody, 1, centerX, spacer+50);
-        draws.add(weave);
-        presses.add(weave);
-        WeaveButton weave1 = new WeaveButton(this, melody, 2, centerX, spacer+90);
-        draws.add(weave1);
-        presses.add(weave1);
-        WeaveButton weave2 = new WeaveButton(this, melody, 3, centerX, spacer+150);
-        draws.add(weave2);
-        presses.add(weave2);
-
-
-       
-        ClearList custom = new ClearList(this, melody, centerY, spacer*2+centerY+40); 
-        draws.add(custom);
-        presses.add(custom);
-
-
-        //fix spacing
-        UnitTestButton test = new UnitTestButton(this, melody, centerY, spacer);
-        draws.add(test);
-        presses.add(test);
-
-
-
-    }
-
-    // Set the initial background for the application
-    public void setup() {
-        background(0); // Set background color to black
-    }
-
-    // Main draw loop to render drawable elements
-    public void draw() {
-        for(Drawable drawer : draws) {
-            drawer.draw(); // Call the draw method for each drawable element
-        }
-    }
-
-    // Handle mouse press events
-    public void mousePressed() {
-        for(OnMousePress press : presses) {
-            press.mousePressed(mouseX, mouseY); // Call mousePressed on each pressable element
-        }
-    }
-
-    
-}
+ import jm.music.data.*;
+ import jm.util.*;
+ import java.nio.file.FileSystem;
+ import java.nio.file.FileSystems;
+ import java.util.ArrayList;
+ import processing.core.*;
+ 
+ // Main Application Class
+ public class App extends PApplet {
+     static FileSystem sys = FileSystems.getDefault();
+     static String prependPath = "mid" + sys.getSeparator();
+     static String appendType = ".mid";  
+ 
+     ArrayList<OnMousePress> presses = new ArrayList<>();
+     ArrayList<Drawable> draws = new ArrayList<>();
+ 
+     TreeMelodyManager treeManager = new TreeMelodyManager(); // TreeMelodyManager instance
+     TreeMelody treeMelody = new TreeMelody(treeManager); // TreeMelodyList instance
+ 
+     public static void main(String[] args) {
+         PApplet.main("com.linked_list_music_template.App");      
+     }
+ 
+     public void settings() {
+         size(500, 500); 
+         setupManager(); // Set up the melody manager and load MIDI files
+         setupTreeMelody(); // Generate motives for testing
+         setupButtons(); 
+         addMelodyDraw(); 
+     }
+ 
+     // Set up the TreeMelodyManager and add MIDI files
+     void setupManager() {
+         treeManager.setup();
+         // Add your MIDI files here
+         treeManager.addMidiFile(prependPath + "BachInvention.mid");
+         treeManager.addMidiFile(prependPath + "AnotherMIDIFile.mid");
+     }
+ 
+     // Generate motives and train the tree melody
+     void setupTreeMelody() {
+         int motiveNoteCount = 4; // Set the number of notes for each motive
+         treeMelody.train(-1, motiveNoteCount); // Train the tree with random index and given motive count
+     }
+ 
+     public void addMelodyDraw() {
+         draws.add(treeMelody); // Add the tree melody to the draw list
+         draws.add(treeManager); // Add the manager to the draw list
+     }
+ 
+     public void setupButtons() {
+         float centerX = width / 2;
+         float centerY = height / 2;
+         float spacer = 45; 
+ 
+         PlayButton play = new PlayButton(this, treeMelody, centerX + 1, centerY);
+         draws.add(play);
+         presses.add(play);
+ 
+         StopButton stop = new StopButton(this, treeMelody, centerX, centerY + spacer);
+         draws.add(stop);
+         presses.add(stop);
+ 
+         LoopButton loop = new LoopButton(this, treeMelody, centerX, centerY + 2 * spacer);
+         draws.add(loop);
+         presses.add(loop);
+ 
+         ClearList clear = new ClearList(this, treeMelody, centerY, spacer * 2 + centerY + 40); 
+         draws.add(clear);
+         presses.add(clear);
+ 
+         UnitTestButton test = new UnitTestButton(this, treeMelody, centerY, spacer);
+         draws.add(test);
+         presses.add(test);
+     }
+ 
+     public void setup() {
+         background(0);
+     }
+ 
+     public void draw() {
+         for (Drawable drawer : draws) {
+             drawer.draw();
+         }
+     }
+ 
+     public void mousePressed() {
+         for (OnMousePress press : presses) {
+             press.mousePressed(mouseX, mouseY);
+         }
+     }
+ }
+ 

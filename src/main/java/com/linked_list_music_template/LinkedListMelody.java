@@ -11,9 +11,9 @@
  package com.linked_list_music_template;
 
  public class LinkedListMelody implements Drawable {
-     private MelodyNode head;
+     protected MelodyNode head; // Changed from private to protected
      private MelodyNode curPlayingNode = null;
-     private boolean loopEnabled = false; // New field to control looping
+     private boolean loopEnabled = false;
  
      // Insert a new melody node at the end of the list
      public void insertAtEnd(MelodyNode newNode) {
@@ -74,7 +74,6 @@
       */
      public void weave(MelodyNode node, int count, int skip) {
          MelodyNode temp = head;
-         int index = 0;
          int inserts = 0;
  
          // Traverse the list and insert the node at intervals
@@ -82,7 +81,6 @@
              // Move 'skip' steps forward in the list
              for (int i = 0; i < skip && temp.getNext() != null; i++) {
                  temp = temp.getNext();
-                 index++;
              }
  
              // Insert a copy of the node at the current position

@@ -8,48 +8,48 @@
  * 
  */
 
+ package com.linked_list_music_template;
 
-package com.linked_list_music_template;
-
-// Node class for the melody linked list
-public class MelodyNode {
-    private LinkedListMelodyManager melodies; // Manager for the melody
-    private int whichMelody;                  // Value representing the melody
-    private MelodyNode next;                  // Reference to the next node in the list
-
-    // Constructor for MelodyNode
-    public MelodyNode(LinkedListMelodyManager melodies, int whichMelody) {
-        this.melodies = melodies;
-        this.whichMelody = whichMelody;
-    }
-
-    // Returns the LinkedListMelodyManager associated with this node
-    public LinkedListMelodyManager getManager() {
-        return melodies;
-    }
-
-    // Returns the melody value of this node
-    public int getMelodyValue() {
-        return whichMelody;
-    }
-
-    // Getter for the next node
-    public MelodyNode getNext() {
-        return next;
-    }
-
-    // Setter for the next node
-    public void setNext(MelodyNode next) {
-        this.next = next;
-    }
-
-    // Starts the melody in the LinkedListMelodyManager
-    public void start() {
-        melodies.start(whichMelody);
-    }
-
-    // Checks if the melody is at the end
-    public boolean atEnd() {
-        return melodies.atEnd(whichMelody);
-    }
-}
+ // Node class for the melody linked list
+ public class MelodyNode {
+     private MelodyManager melodies; // Generalized manager for the melody
+     private int whichMelody;        // Value representing the melody
+     private MelodyNode next;        // Reference to the next node in the list
+ 
+     // Constructor for MelodyNode
+     public MelodyNode(MelodyManager melodies, int whichMelody) {
+         this.melodies = melodies;
+         this.whichMelody = whichMelody;
+     }
+ 
+     // Returns the MelodyManager associated with this node
+     public MelodyManager getManager() {
+         return melodies;
+     }
+ 
+     // Returns the melody value of this node
+     public int getMelodyValue() {
+         return whichMelody;
+     }
+ 
+     // Getter for the next node
+     public MelodyNode getNext() {
+         return next;
+     }
+ 
+     // Setter for the next node
+     public void setNext(MelodyNode next) {
+         this.next = next;
+     }
+ 
+     // Starts the melody in the MelodyManager
+     public void start() {
+         melodies.start(whichMelody);
+     }
+ 
+     // Checks if the melody is at the end
+     public boolean atEnd() {
+         return melodies.atEnd(whichMelody);
+     }
+ }
+ 
