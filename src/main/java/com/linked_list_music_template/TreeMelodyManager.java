@@ -43,7 +43,7 @@ public class TreeMelodyManager extends MelodyManager implements Drawable {
 
     // Default tempo and MIDI bus
     float tempo = 120.0f; // Set a default tempo (beats per minute)
-    String bus = "Default Bus"; // Replace with the correct MIDI bus name if needed
+    String bus = "Microsoft GS Wavetable Synth"; // Replace with the correct MIDI bus name if needed
 
     TreeMelodyManager() {
         super();
@@ -94,14 +94,14 @@ public class TreeMelodyManager extends MelodyManager implements Drawable {
     }
 
     // New method to get MIDI notes for a given index
-   // New method to get MIDI notes for a given index as an ArrayList of integers
-ArrayList<Integer> getMidiNotes(int i) {
-    if (i >= 0 && i < midiNotes.size()) {
-        return midiNotes.get(i).getPitchArray(); // Extracts the pitch (note numbers) from the specified MidiFileToNotes
-    } else {
-        throw new IndexOutOfBoundsException("Invalid index for MIDI notes.");
+    ArrayList<Integer> getMidiNotes(int i) {
+        if (i >= 0 && i < midiNotes.size()) {
+            return midiNotes.get(i).getPitchArray(); // Extracts the pitch (note numbers) from the specified MidiFileToNotes
+        } else {
+            throw new IndexOutOfBoundsException("Invalid index for MIDI notes.");
+        }
     }
-}
+    
 
     // Convert files to motives with a specified note count
     ArrayList<MelodyPlayer> convertToMotives(int noteCount) {
