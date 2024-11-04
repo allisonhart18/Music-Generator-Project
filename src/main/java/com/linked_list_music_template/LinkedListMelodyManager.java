@@ -13,10 +13,11 @@
 
 
 package com.linked_list_music_template;
+
+
 import java.util.ArrayList;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
-
 
 // Class managing a collection of melody players and MIDI files
 public class LinkedListMelodyManager implements Drawable {
@@ -31,7 +32,7 @@ public class LinkedListMelodyManager implements Drawable {
     static String appendType = ".mid" + sys.getSeparator();
 
     // Array of MIDI file names to be loaded
-    String[] files = {"bassoon1", "bassoon2", "bassoon3", "bassoon4", "bassoon5", "bassoon6"};
+    String[] files = {"SoundLong"};
 
     // Constructor initializing the players and midiNotes lists
     public LinkedListMelodyManager() {
@@ -69,18 +70,34 @@ public class LinkedListMelodyManager implements Drawable {
         players.get(index).setStartTimes(midiNotes.get(index).getStartTimeArray());
     }
 
-    // Starts the melody associated with the player at the given index
-    public void start(int index) {
-        players.get(index).reset(); // Reset the player to start playback
+    //starts at given index
+    public void start(int index)
+    {
+        players.get(index).reset(); //resets back to start
     }
 
-    // Checks if the melody at the given index has reached its end
-    public boolean atEnd(int index) {
-        return players.get(index).atEndOfMelody(); // Return whether the melody has ended
+    //ends at given index
+    public boolean atEnd(int index)
+    {
+        return players.get(index).atEndOfMelody(); //sees if melody is ended
     }
 
-    // Draw method for implementing Drawable interface (currently empty)
-    public void draw() {
+    public void draw()
+    {
         playMelodies();
+    }
+
+    //prints melody list content
+    public void print()
+    {
+        StringBuilder melodyOutput = new StringBuilder("Melody Manager: ");
+        for (int i = 0; i < players.size(); i++) {
+            melodyOutput.append("Melody ").append(i).append(", ");
+        }
+        if (melodyOutput.length() > 0)
+        {
+            melodyOutput.setLength(melodyOutput.length() - 2);
+        }
+        System.out.println(melodyOutput.toString());
     }
 }

@@ -26,110 +26,103 @@
  * 
  */
 package com.linked_list_music_template;
-
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.util.ArrayList;
 
-public class TreeMelodyManager extends MelodyManager implements Drawable {
-
-    // Used for loading files
+public class TreeMelodyManager extends MelodyManager implements Drawable 
+{
     static FileSystem sys = FileSystems.getDefault();
     static String prependPath = "mid" + sys.getSeparator();
     static String appendType = ".mid";
 
-    // Array of file names
-    String[] files = {"MaryHadALittleLamb"};
+    float tempo = 100;
+    String bus = "Microsoft GS Wavetable Synth";
 
-    // Default tempo and MIDI bus
-    float tempo = 120.0f; // Set a default tempo (beats per minute)
-    String bus = "Microsoft GS Wavetable Synth"; // Replace with the correct MIDI bus name if needed
+    String[] files = {"HarpMidi", "BachInvention"};
 
-    TreeMelodyManager() {
+    TreeMelodyManager() 
+    {
         super();
     }
 
-    // Method to set custom files
-    void setFiles(String[] files_) {
+    void setFiles(String[] files_) 
+    {
         files = files_;
     }
 
-    // Add more melody players to the manager
-    void addPlayers(ArrayList<MelodyPlayer> p) {
+    void addPlayers(ArrayList<MelodyPlayer> p)
+     {
         players.addAll(p);
     }
 
-    // Return a copy/clone of all the players
-    ArrayList<MelodyPlayer> copyPlayers() {
+    ArrayList<MelodyPlayer> copyPlayers() 
+    {
         ArrayList<MelodyPlayer> list = new ArrayList<>();
         list.addAll(players);
         return list;
     }
 
-    // Load all the files. Make sure to set the files you want first.
-    void setup() {
-        for (int i = 0; i < files.length; i++) {
+    void setup()
+     {
+        for (int i = 0; i < files.length; i++) 
+        {
             addMidiFile(prependPath + files[i] + appendType);
         }
     }
 
-    // Clear all players
-    void clear() {
+    void clear() 
+    {
         players.clear();
     }
 
-    // Size of the files array
-    int fileSize() {
+    int fileSize()
+     {
         return files.length;
     }
 
-    // Size of the melodies
-    int melodySize() {
+    int melodySize()
+     {
         return players.size();
     }
 
-    // Get the MIDI note numbers of the melody at index i
-    ArrayList<Integer> getMelodyPitches(int i) {
+    ArrayList<Integer> getMelodyPitches(int i) 
+    {
         return players.get(i).getMelody();
     }
 
-    // New method to get MIDI notes for a given index
-    ArrayList<Integer> getMidiNotes(int i) {
-        if (i >= 0 && i < midiNotes.size()) {
-            return midiNotes.get(i).getPitchArray(); // Extracts the pitch (note numbers) from the specified MidiFileToNotes
-        } else {
-            throw new IndexOutOfBoundsException("Invalid index for MIDI notes.");
-        }
-    }
-    
-
-    // Convert files to motives with a specified note count
-    ArrayList<MelodyPlayer> convertToMotives(int noteCount) {
+    ArrayList<MelodyPlayer> convertToMotives(int noteCount) 
+    {
         System.out.println("Converting to motives with " + noteCount + " notes. This will take time...");
         ArrayList<MelodyPlayer> newPlayers = new ArrayList<>();
 
-        for (MidiFileToNotes notes : midiNotes) {
+        for (MidiFileToNotes notes : midiNotes) 
+        {
             ArrayList<Double> rhythms = notes.getRhythmArray();
             ArrayList<Double> times = notes.getStartTimeArray();
             ArrayList<Integer> pitches = notes.getPitchArray();
 
             double startTime = 0;
-            for (int i = 0; i < pitches.size(); i++) {
-                MelodyPlayer player = new MelodyPlayer(tempo, bus); // Use initialized variables
+            for (int i = 0; i < pitches.size(); i++) 
+            {
+                MelodyPlayer player = new MelodyPlayer(tempo, bus);
 
                 ArrayList<Double> playingRhythms = new ArrayList<>();
                 ArrayList<Double> playingTimes = new ArrayList<>();
                 ArrayList<Integer> playingPitches = new ArrayList<>();
 
                 double curZero = startTime;
-                for (int j = 0; j < noteCount && i + j < pitches.size(); j++) {
+                for (int j = 0; j < noteCount && i + j < pitches.size(); j++)
+                 {
                     playingRhythms.add(rhythms.get(i + j));
                     playingPitches.add(pitches.get(i + j));
 
-                    if (j == 0) {
+                    if (j == 0) 
+                    {
                         playingTimes.add(0.0);
                         curZero += (times.get(i + j) - curZero);
-                    } else {
+                    } else 
+                    {
                         playingTimes.add(times.get(i + j) - curZero);
                     }
                     startTime = times.get(i + j);
@@ -143,46 +136,67 @@ public class TreeMelodyManager extends MelodyManager implements Drawable {
                 i += (noteCount - 1);
             }
         }
-        System.out.println("Finished converting. There are now " + players.size() + " melodies.");
+        System.out.println("Finished converting. There are now " + newPlayers.size() + " melodies.");
         return newPlayers;
     }
 
-    void convertToMotivesAndReplace(int noteCount) {
+    void convertToMotivesAndReplace(int noteCount)
+     {
         players = convertToMotives(noteCount);
     }
 
-    String melodyToString(int i) {
+    String melodyToString(int i) 
+    {
         ArrayList<Integer> pitches = players.get(i).getMelody();
         return pitches.toString();
     }
 
-    String startTimesToString(int i) {
+    String startTimesToString(int i)
+     {
         return players.get(i).getStartTimes().toString();
     }
 
-    void popNoteFromMelody(int i) {
+    void popNoteFromMelody(int i)
+     {
         players.get(i).getMelody().remove(0);
         players.get(i).getStartTimes().remove(0);
         players.get(i).getRhythm().remove(0);
     }
 
-    void stopAll() {
-        for (MelodyPlayer player : players) {
+    void stopAll()
+     {
+        for (MelodyPlayer player : players)
+         {
             player.stopAllNotes();
         }
     }
 
-    public void draw() {
+    public void draw() 
+    {
         playMelodies();
     }
 
-        // Method to check if any melody is currently playing
-        public boolean isPlaying() {
-            for (MelodyPlayer player : players) {
-                if (player.isPlaying()) { // Assuming MelodyPlayer has an isPlaying() method
-                    return true; // Return true if any melody is playing
-                }
-            }
-            return false; // Return false if none are playing
+    public MelodyPlayer getPlayer(int index) 
+    {
+        return players.get(index);
+    }
+
+    public int size()
+     {
+        return players.size();
+    }
+
+    public void print() 
+    {
+        StringBuilder melodyOutput = new StringBuilder("Tree Melody Manager: ");
+        for (int i = 0; i < players.size(); i++) 
+        {
+            melodyOutput.append("Melody ").append(i).append(", ");
         }
+        if (melodyOutput.length() > 0) 
+        {
+            melodyOutput.setLength(melodyOutput.length() - 2);
+        }
+        System.out.println(melodyOutput.toString());
+    }
 }

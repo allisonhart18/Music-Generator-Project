@@ -1,95 +1,88 @@
 package com.linked_list_music_template;
 import java.util.ArrayList;
-import java.util.Random;
 
-public class TreeMelody extends LinkedListMelody {
+
+
+public class TreeMelody 
+{
     private TreeMelodyNode root;
-    private TreeMelodyManager manager;
+    private TreeMelodyManager melodyManager;
 
-    public TreeMelody(TreeMelodyManager manager) {
-        this.manager = manager;
+    public TreeMelody(TreeMelodyManager melodyManager) 
+    {
+        this.melodyManager = melodyManager;
     }
 
-    @Override
-    public void print() {
-        if (root != null) {
-            root.print();
-        } else {
-            System.out.println("Tree is empty.");
+    public TreeMelodyNode getRoot() 
+    {
+        return root;
+    }
+
+    public TreeMelodyManager getMelodyManager() 
+    {
+        return melodyManager;
+    }
+
+    public void setRoot(TreeMelodyNode root)
+     {
+        this.root = root;
+    }
+
+    public void setMelodyManager(TreeMelodyManager melodyManager) 
+    {
+        this.melodyManager = melodyManager;
+    }
+
+    public void train(int noteMotiveCount, int rootIndex)
+     {
+        ArrayList<MelodyPlayer> motives = melodyManager.convertToMotives(noteMotiveCount);
+        root = new TreeMelodyNode(melodyManager, rootIndex, motives.get(rootIndex).getMelody());
+
+        for (int i = 0; i < motives.size(); i++) 
+        {
+            ArrayList<Integer> motive = motives.get(i).getMelody();
+            TreeMelodyNode currentNode = root;
+            while (currentNode != null) {
+                if (motive.get(0).equals(currentNode.getMelody().get(currentNode.getMelody().size() - 1))) 
+                {
+                    currentNode.addNextNode(new TreeMelodyNode(melodyManager, i, motive));
+                }
+                currentNode = currentNode.getNextNodes().isEmpty() ? null : currentNode.getNextNodes().get(0);
+            }
         }
     }
 
-   
-    public void clear() {
-        root = null;
-        head = null;
-        System.out.println("Tree cleared.");
-    }
-
-    public void train(int index) {
-        train(index, 4);
-    }
-
-    public void train(int index, int motiveNoteCount) {
-        ArrayList<TreeMelodyNode> motives = new ArrayList<>();
-        manager.convertToMotivesAndReplace(motiveNoteCount);
-
-        if (index == -1) {
-            Random random = new Random();
-            index = random.nextInt(manager.melodySize());
-        }
-
-        for (int i = 0; i < manager.melodySize(); i++) {
-            motives.add(new TreeMelodyNode(manager, i, manager.getMidiNotes(i)));
-        }
-
-        if (root == null && !motives.isEmpty()) {
-            root = motives.get(index);
-            motives.remove(index);
-        }
-
-        if (root != null) {
-            root.addNextNodes(motives);
-        }
-
-        head = root;
-    }
-
-    @Override
-    public void start() {
-        if (root != null) {
-            head = root;
-            super.start();
+    public void play() 
+    {
+        TreeMelodyNode currentNode = root;
+        while (currentNode != null) 
+        {
+            MelodyPlayer player = melodyManager.getPlayer(currentNode.getIndex());
+            player.play();
+            ArrayList<TreeMelodyNode> nextNodes = currentNode.getNextNodes();
+            if (nextNodes.size() > 0) 
+            {
+                int nextIndex = (int) (Math.random() * nextNodes.size());
+                currentNode = nextNodes.get(nextIndex);
+            } else 
+            {
+                currentNode = null;
+            }
         }
     }
 
-    @Override
-    public void play() {
-        if (root != null) {
-            head = root;
-            super.play();
+    public void printTree(TreeMelodyNode node, String indent) 
+    {
+        if (node == null) return;
+        System.out.println(indent + node.getIndex() + ": " + node.getMelody());
+        for (TreeMelodyNode nextNode : node.getNextNodes()) 
+        {
+            printTree(nextNode, indent + "    ");
         }
     }
 
-    @Override
-    public void loop(boolean enable) {
-        if (root != null) {
-            head = root;
-            super.loop(enable);
-        }
-    }
-
-    @Override
-    public void weave(MelodyNode node, int count, int skip) {
-        super.weave(node, count, skip);
-    }
-
-    public boolean playing() {
-        return manager.isPlaying();
-    }
-
-    public void stopAllPlayingNodes() {
-        manager.stopAll();
-        System.out.println("All playing nodes stopped.");
+    public void printTree() 
+    {
+        printTree(root, "");
     }
 }
