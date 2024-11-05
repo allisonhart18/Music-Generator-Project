@@ -29,6 +29,7 @@
          PApplet.main("com.linked_list_music_template.App");
      }
  
+        // Method to set the window size and initialize components
      public void settings() 
      {
          size(500, 500);
@@ -39,6 +40,7 @@
          melody.print();
      }
 
+     // Method to load and add MIDI files to the manager
      void setupManager() {
         manager.setup();
         manager.addMidiFile(prependPath + "BachInvention.mid");
@@ -59,6 +61,7 @@
          float centerY = height / 4; 
          float spacer = 50;
  
+            // Create and add a Play button
          PlayButton play = new PlayButton(this, melody, "Play", centerX, centerY) 
          {
              public void onPress() 

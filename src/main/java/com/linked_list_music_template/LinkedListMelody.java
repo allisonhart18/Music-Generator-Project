@@ -10,7 +10,7 @@
 
  package com.linked_list_music_template;
 
- import java.util.ArrayList;
+ //import java.util.ArrayList;
 
  public class LinkedListMelody implements Drawable 
  
@@ -34,19 +34,21 @@
      {
          return head == null;
      }
- 
+
+
+ // Inserts a node at a specific index in the list
      public void insert(int index, MelodyNode node) 
      {
          if (index == 0) 
          {
              insertAtStart(node);
          } else 
-         {
+         {  // Traverse to the node before the insertion point
              MelodyNode current = head;
              for (int i = 0; i < index - 1 && current != null; i++) 
              {
                  current = current.getNext();
-             }
+             }// Insert the node if the current node is not null
              if (current != null) 
              {
                  node.setNext(current.getNext());
@@ -54,7 +56,8 @@
              }
          }
      }
- 
+
+ // Inserts a node at the start of the list
      public void insertAtStart(MelodyNode node) 
      {
          if (isEmpty()) 
@@ -88,6 +91,7 @@
          loopEnabled = enable;
      }
  
+     // Called to draw the object (starts playback)
      public void draw() 
      {
          play();
@@ -150,7 +154,7 @@
          System.out.println("The Melody List Is Cleared");
      }
  
- 
+ // Adds nodes to the linked list using the manager's data
      public void addNodes() 
      {
          for (int i = 0; i < manager.size(); i++)

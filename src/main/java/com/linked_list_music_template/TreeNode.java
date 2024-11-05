@@ -1,3 +1,9 @@
+/*
+ * Allison Hart - 11/4
+ * node in tree , stores  melody and 
+ * maintaining  list of child nodes for hierarchical organization and traversal
+ */
+
 package com.linked_list_music_template;
 
 import java.util.ArrayList;

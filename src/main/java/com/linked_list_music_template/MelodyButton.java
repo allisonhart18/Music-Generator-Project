@@ -1,5 +1,5 @@
 /*
- * 10/29
+ * 11/4
  * Allison Hart
  * MelodyButton class is an abstract class of a button that
  *  controls a melody, allowing it to be extended by specific button types, 
@@ -137,7 +137,7 @@
          super(main_, "Test Melody Tree", x_, y_);
          this.treeMelody = treeMelody_;
      }
- 
+  // Trains the tree melody with random input when pressed
      public void onPress() 
      {
          TreeMelodyManager manager = new TreeMelodyManager();

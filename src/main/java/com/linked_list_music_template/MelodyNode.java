@@ -1,5 +1,5 @@
 /*
- * Allison Hart - 10/29/2024
+ * Allison Hart - 11/4/2024
  * 
  *  MelodyNode class represents a node in a linked list of melodies,
  *  where each node stores a melody identifier (whichMelody) and a reference 
@@ -13,9 +13,9 @@
 
 
  public class MelodyNode {
-    private TreeMelodyManager melodies;
-    private int whichMelody;
-    private MelodyNode next;
+    private TreeMelodyManager melodies; // Reference to the manager that handles melody data
+    private int whichMelody; // Index  for the specific melody within manager
+    private MelodyNode next; // Pointer to the next node in the linked structure
 
     public MelodyNode(TreeMelodyManager melodies, int whichMelody) {
         this.melodies = melodies;

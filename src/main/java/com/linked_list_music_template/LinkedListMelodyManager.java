@@ -1,5 +1,5 @@
 /*
- * 10/29
+ * 11/4
  * Allison Hart
  * 
  * LinkedListMelodyManager class manages a collection of MelodyPlayer 
@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 
-// Class managing a collection of melody players and MIDI files
+
 public class LinkedListMelodyManager implements Drawable {
-    // List of MelodyPlayer instances that play the melodies
+    
     ArrayList<MelodyPlayer> players;
-    // List of MidiFileToNotes instances that convert MIDI files to notes
+   
     ArrayList<MidiFileToNotes> midiNotes;
 
     // Static variables for constructing MIDI file paths
@@ -32,18 +32,18 @@ public class LinkedListMelodyManager implements Drawable {
     static String appendType = ".mid" + sys.getSeparator();
 
     // Array of MIDI file names to be loaded
-    String[] files = {"SoundLong"};
+    String[] files = {"HarpMidi", "BachInvention"};
 
-    // Constructor initializing the players and midiNotes lists
+  
     public LinkedListMelodyManager() {
         players = new ArrayList<>();
         midiNotes = new ArrayList<>();
     }
 
-    // Method to set up the manager by adding MIDI files from the predefined list
+  
     public void setup() {
         for (int i = 0; i < files.length; i++) {
-            addMidiFile(prependPath + files[i] + appendType); // Load each MIDI file
+            addMidiFile(prependPath + files[i] + appendType); // Load MIDI file
         }
     }
 
@@ -52,34 +52,34 @@ public class LinkedListMelodyManager implements Drawable {
         return players.size();
     }
 
-    // Plays all melodies using their respective players
+    // Plays all melodies using their players
     public void playMelodies() {
         for (MelodyPlayer player : players) {
-            player.play(); // start play on each MelodyPlayer
-        }
+            player.play(); 
     }
+}
 
-    // Adds a MIDI file to the manager, creating a corresponding MelodyPlayer
+    // Adds a MIDI file to the manager
     public void addMidiFile(String filePath) {
-        int index = players.size(); // Get the current index for the new player
-        players.add(new MelodyPlayer(120, "Microsoft GS Wavetable Synth")); // Create and add a new MelodyPlayer
-        midiNotes.add(new MidiFileToNotes(filePath)); // Create and add a MidiFileToNotes instance
-        // Set the melody, rhythm, and start times for the player based on the MIDI file
+        int index = players.size(); 
+        players.add(new MelodyPlayer(120, "Microsoft GS Wavetable Synth")); 
+        midiNotes.add(new MidiFileToNotes(filePath)); 
+       
         players.get(index).setMelody(midiNotes.get(index).getPitchArray());
         players.get(index).setRhythm(midiNotes.get(index).getRhythmArray());
         players.get(index).setStartTimes(midiNotes.get(index).getStartTimeArray());
     }
 
-    //starts at given index
+    //starts at index
     public void start(int index)
     {
-        players.get(index).reset(); //resets back to start
+        players.get(index).reset(); //resets to start
     }
 
-    //ends at given index
+
     public boolean atEnd(int index)
     {
-        return players.get(index).atEndOfMelody(); //sees if melody is ended
+        return players.get(index).atEndOfMelody(); 
     }
 
     public void draw()
@@ -87,7 +87,7 @@ public class LinkedListMelodyManager implements Drawable {
         playMelodies();
     }
 
-    //prints melody list content
+    //prints melody list 
     public void print()
     {
         StringBuilder melodyOutput = new StringBuilder("Melody Manager: ");

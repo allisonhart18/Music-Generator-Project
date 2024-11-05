@@ -1,3 +1,9 @@
+/*
+ * Allison Hart - 11/4
+ * tree structure for managing and playing musical motives
+ *  using nodes that hold melodies and link them based on musical patterns
+ */
+
 package com.linked_list_music_template;
 import java.util.ArrayList;
 
@@ -33,6 +39,7 @@ public class TreeMelody
         this.melodyManager = melodyManager;
     }
 
+    // Method to train the tree by creating nodes based on given motives and linking them by matching patterns
     public void train(int noteMotiveCount, int rootIndex)
      {
         ArrayList<MelodyPlayer> motives = melodyManager.convertToMotives(noteMotiveCount);
@@ -42,6 +49,7 @@ public class TreeMelody
         {
             ArrayList<Integer> motive = motives.get(i).getMelody();
             TreeMelodyNode currentNode = root;
+            // Traverse the tree and add new nodes if a matching pattern is found
             while (currentNode != null) {
                 if (motive.get(0).equals(currentNode.getMelody().get(currentNode.getMelody().size() - 1))) 
                 {
@@ -52,6 +60,7 @@ public class TreeMelody
         }
     }
 
+     //play the melody by traversing the tree and playing nodes randomly
     public void play() 
     {
         TreeMelodyNode currentNode = root;
@@ -71,6 +80,7 @@ public class TreeMelody
         }
     }
 
+    // Recursive method to print the tree structure with indentation
     public void printTree(TreeMelodyNode node, String indent) 
     {
         if (node == null) return;
